@@ -1,0 +1,29 @@
+version: '3'
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - server-secret
+
+  server-secret:
+    image: server-secret-image
+    ports:
+      - "5001:5001"
+    depends_on:
+      - backend2
+
+  server-generate:
+    image: server-generate-image
+    ports:
+      - "5002:5002"
+
+  portainer:
+    image: portainer/portainer-ce
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock

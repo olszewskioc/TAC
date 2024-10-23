@@ -10,7 +10,7 @@ app.use(cors());
 const port = 5002;
 
 app.get("/", (req, res) => {
-	res.send("Welcome to the Server Secret");
+	res.send("Welcome to the Server Generate");
 });
 
 app.post("/generate-word", (req, res) => {
@@ -29,11 +29,11 @@ app.post("/generate-word", (req, res) => {
         const lineIndex = randomIndex % lines.length;
         res.send({body: {
             word: lines[lineIndex].trim(),
-            num: randomIndex,
+            num: randomIndex%lines.length,
         }});
     });
 })
 
 app.listen(port, () => {
-	console.log(`Server Secret running in port ${port}`);
+	console.log(`Server Generate running in port ${port}`);
 });
