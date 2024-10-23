@@ -1,4 +1,3 @@
-# Back-end 2 Dockerfile
 FROM node:14
 
 WORKDIR /app
@@ -8,4 +7,4 @@ RUN npm install
 
 COPY . .
 
-CMD ["node", "server-secret.js"]
+CMD ["node", "server-generate.js"]

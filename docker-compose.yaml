@@ -1,23 +1,27 @@
 version: '3'
 services:
-  front:
+  frontend:
     build:
       context: ./front
       dockerfile: Dockerfile
     ports:
       - "8080:80"
     depends_on:
-      - server-secret
+      - server_secret
 
-  server-secret:
-    image: server-secret-image
+  server_secret:
+    build:
+      context: ./server-secret # Use a construção a partir do Dockerfile local
+      dockerfile: Dockerfile
     ports:
       - "5001:5001"
     depends_on:
-      - backend2
+      - server_generate
 
-  server-generate:
-    image: server-generate-image
+  server_generate:
+    build:
+      context: ./server-generate # Use a construção a partir do Dockerfile local
+      dockerfile: Dockerfile
     ports:
       - "5002:5002"
 

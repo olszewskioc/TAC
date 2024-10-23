@@ -18,13 +18,19 @@ app.get("/generate-secret", async (req, res) => {
     console.log(`Generated Secret: ${secret} - At (${new Date()})`);
 
     try {
-        const response = await fetch("http://localhost:5002/generate-word", {
+        const response = await fetch("http://server_generate:5002/generate-word", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ secret: secret }) // Corrigindo o envio do body
         });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error(`Erro ao acessar o server-generate: ${response.status} - ${errorText}`);
+            throw new Error('Falha na requisição');
+          }
 
         const data = await response.json(); // Certifique-se de que a resposta seja convertida em JSON
         const temp = { word: data.body.word, num: data.body.num, secret: secret };
