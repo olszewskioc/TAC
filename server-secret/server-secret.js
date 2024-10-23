@@ -15,6 +15,13 @@ app.get("/", (req, res) => {
 app.get("/generate-secret", (req, res) => {
     const secret = crypto.randomBytes(32).toString('hex').slice(0, 32);
     console.log(`Generated Secret: ${secret} - At (${new Date()})`)
+    const word = async (secret) => await fetch("http://localhost:5002/generate_word",{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            },
+        body: {secret: secret}
+    })
     res.send(secret);
 })
 
