@@ -1,8 +1,8 @@
 version: '3'
 services:
-  frontend:
+  front:
     build:
-      context: ./frontend
+      context: ./front
       dockerfile: Dockerfile
     ports:
       - "8080:80"

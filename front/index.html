@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Palavras</title>
+    <script>
+        async function gerarPalavra() {
+            try {
+                // Enviar a palavra para o primeiro backend
+                const response = await fetch('http://localhost:5001/generate-secret', {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' },
+                });
+
+                const result = await response.json();
+                console.log(result)
+                // Mostrar resultado
+                document.getElementById("resultado").innerText = `Palavra gerada: ${result.word}\nNúmero gerado: ${result.num} \nSegredo: ${result.secret}`;
+            } catch (error) {
+                console.error('Erro ao gerar palavra:', error);
+                alert('Erro ao gerar palavra. Veja o console para mais detalhes.');
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Gerador de Palavras</h1>
+    <button onclick="gerarPalavra()">Gerar Palavra</button>
+    <p id="resultado"></p>
+</body>
+</html>
