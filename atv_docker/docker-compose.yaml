@@ -1,0 +1,37 @@
+version: '3'
+services:
+  frontend:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - server_secret
+
+  server_secret:
+    build:
+      context: ./server-secret # Use a construção a partir do Dockerfile local
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5001"
+    depends_on:
+      - server_generate
+
+  server_generate:
+    build:
+      context: ./server-generate # Use a construção a partir do Dockerfile local
+      dockerfile: Dockerfile
+    ports:
+      - "5002:5002"
+
+  portainer:
+    image: portainer/portainer-ce
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+volumes:
+  portainer_data:
