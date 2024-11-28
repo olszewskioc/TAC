@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redimensionamento de Imagem</title>
+</head>
+<body>
+    <h2>Upload e Redimensionamento de Imagem</h2>
+    <form id="imageForm" action="https://mb78e0dzt2.execute-api.us-east-1.amazonaws.com/process-image" method="POST" enctype="multipart/form-data">
+        <label for="imageInput">Escolha uma imagem:</label>
+        <input type="file" id="imageInput" name="image" accept="image/*" required>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <div id="result">
+        <h3>Imagem Processada:</h3>
+        <img id="processedImage" alt="Imagem processada aparecerá aqui" style="display:none; max-width: 240px;">
+    </div>
+
+    <script>
+        document.getElementById("uploadForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData();
+            const fileInput = document.getElementById("imageInput");
+            formData.append("image", fileInput.files[0]);
+
+            try {
+                const response = await fetch("https://mb78e0dzt2.execute-api.us-east-1.amazonaws.com/process-image", {
+                    method: "POST",
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const imgElement = document.getElementById("processedImage");
+                    imgElement.src = `data:image/png;base64,${data.image}`;
+                    imgElement.style.display = "block";
+                } else {
+                    alert("Erro ao processar a imagem.");
+                }
+            } catch (error) {
+                console.error("Erro:", error);
+                alert("Ocorreu um erro ao enviar a imagem.");
+            }
+        });
+    </script>
+</body>
+</html>
